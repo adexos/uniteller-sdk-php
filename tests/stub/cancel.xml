@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<unitellerresult firstcode="" secondcode="" count="1">
+<unitellerresult firstcode="0" secondcode="" count="1">
     <orders>
         <order>
             <ordernumber>Value of ordernumber</ordernumber>

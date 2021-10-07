@@ -88,8 +88,12 @@ class ClientTest extends TestCase
             $this->assertStringStartsWith($part1, $e->getMessage());
             $this->assertContains($part2, $e->getMessage());
         } catch (\Throwable $e) { // PHP 7
-            $this->assertStringStartsWith($part1, $e->getMessage());
-            $this->assertContains($part2, $e->getMessage());
+            if (version_compare(PHP_VERSION, '7.4', '<')) {
+                $this->assertStringStartsWith($part1, $e->getMessage());
+                $this->assertContains($part2, $e->getMessage());
+            } else {
+                $this->assertInstanceOf(\Throwable::class, $e);
+            }
         }
 
         $client->setHttpManager($this->createMock(HttpManagerInterface::class));
