@@ -1,4 +1,4 @@
 .idea/
 vendor/
-/index.php
-example/credentials.php
+composer.lock
+tests/scratch.php
