@@ -16,6 +16,7 @@ final class ReceiptLine implements ReceiptLineInterface
     private int $vat = 0;
     private int $payattr = 1;
     private int $lineattr = 1;
+    private float $sum = 0;
 
     public function setName(string $name): ReceiptLineInterface
     {
@@ -26,6 +27,12 @@ final class ReceiptLine implements ReceiptLineInterface
     public function setPrice(float $price): ReceiptLineInterface
     {
         $this->price = $price;
+        return $this;
+    }
+
+    public function setSum(float $sum): ReceiptLineInterface
+    {
+        $this->sum = $sum;
         return $this;
     }
 
@@ -60,7 +67,7 @@ final class ReceiptLine implements ReceiptLineInterface
             'name' => $this->name,
             'price' => $this->formatAmount($this->price),
             'qty' => $this->qty,
-            'sum' => $this->formatAmount($this->price * $this->qty),
+            'sum' => $this->formatAmount($this->sum),
             'vat' => $this->vat,
             'payattr' => $this->payattr,
             'lineattr' => $this->lineattr

@@ -31,7 +31,7 @@ final class Client implements ClientInterface
 
     public function payment(PaymentInterface $payment): RequestInterface
     {
-        $payment->setShopIdp($this->options['shopId']);
+        $payment->setShopIdp($this->options['shop_id']);
 
         if ($payment instanceof SignableInterface) {
             $payment->signData($this->options['paymentSignature']);
@@ -49,7 +49,7 @@ final class Client implements ClientInterface
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setRequired('shopId');
+        $resolver->setRequired('shop_id');
         $resolver->setRequired('login');
         $resolver->setRequired('password');
         $resolver->setRequired('paymentSignature');
