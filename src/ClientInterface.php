@@ -1,6 +1,7 @@
 <?php
 
 namespace Adexos\Uniteller;
+use Adexos\Uniteller\Model\OrderInterface;
 use Adexos\Uniteller\Model\PaymentInterface;
 use Psr\Http\Message\RequestInterface;
 
@@ -11,4 +12,6 @@ use Psr\Http\Message\RequestInterface;
 interface ClientInterface
 {
     public function payment(PaymentInterface $payment): RequestInterface;
+
+    public function isValidOrder(OrderInterface  $order, string $requestSignature): bool;
 }

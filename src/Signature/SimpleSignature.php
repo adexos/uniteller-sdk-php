@@ -7,7 +7,7 @@
 namespace Adexos\Uniteller\Signature;
 
 
-final class PaymentSignature implements SignatureInterface
+final class SimpleSignature implements SignatureInterface
 {
     use PasswordAwareTrait;
 

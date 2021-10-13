@@ -6,10 +6,12 @@
 
 namespace Adexos\Uniteller;
 
+use Adexos\Uniteller\Model\OrderInterface;
 use Adexos\Uniteller\Model\PaymentInterface;
 use Adexos\Uniteller\Model\SignableInterface;
+use Adexos\Uniteller\Model\SignableOrderInterface;
 use Adexos\Uniteller\Model\SignableReceiptInterface;
-use Adexos\Uniteller\Signature\PaymentSignature;
+use Adexos\Uniteller\Signature\SimpleSignature;
 use Adexos\Uniteller\Signature\ReceiptSignature;
 use Adexos\Uniteller\Signature\SignatureInterface;
 use GuzzleHttp\Psr7\Request;
@@ -46,6 +48,14 @@ final class Client implements ClientInterface
             ->withBody(Utils::streamFor(http_build_query($payment->getFormFields())));
     }
 
+    public function isValidOrder(OrderInterface  $order, string $requestSignature): bool
+    {
+        if ($order instanceof SignableOrderInterface) {
+            $order->signOrderData($this->options['orderSignature']);
+        }
+&
+        return $order->isValid($requestSignature);
+    }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
@@ -54,14 +64,19 @@ final class Client implements ClientInterface
         $resolver->setRequired('password');
         $resolver->setRequired('paymentSignature');
         $resolver->setRequired('receiptSignature');
+        $resolver->setRequired('orderSignature');
         $resolver->setDefault('payment_url', 'https://fpay.uniteller.ru/v2/pay');
         $resolver->setAllowedTypes('paymentSignature', SignatureInterface::class);
         $resolver->setAllowedTypes('receiptSignature', SignatureInterface::class);
+        $resolver->setAllowedTypes('orderSignature', SignatureInterface::class);
         $resolver->setDefault('paymentSignature', static function (Options $options) {
-            return new PaymentSignature($options['password']);
+            return new SimpleSignature($options['password']);
         });
         $resolver->setDefault('receiptSignature', static function (Options $options) {
             return new ReceiptSignature($options['password']);
+        });
+        $resolver->setDefault('orderSignature', static function (Options $options) {
+            return new SimpleSignature($options['password']);
         });
     }
 }
