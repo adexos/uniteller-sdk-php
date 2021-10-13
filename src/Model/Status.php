@@ -12,6 +12,6 @@ final class Status
     public const AUTHORIZED = 'authorized';
     public const NOT_AUTHORIZED = 'not_authorized';
     public const PAID = 'paid';
-    public const CANCELLED = 'cancelled';
+    public const CANCELLED = 'canceled';
     public const WAITING = 'waiting';
 }
