@@ -53,7 +53,7 @@ final class Client implements ClientInterface
         if ($order instanceof SignableOrderInterface) {
             $order->signOrderData($this->options['orderSignature']);
         }
-&
+
         return $order->isValid($requestSignature);
     }
 
